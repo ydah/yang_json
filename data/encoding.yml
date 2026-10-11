@@ -1,0 +1,21 @@
+# Original encoding reference; normative rules are cited, not reproduced.
+names: {rfc: '7951', section: '4', ruby: 'qualified String keys', json: 'minimal module qualification'}
+container: {rfc: '7951', section: '5.2', ruby: Hash, json: object}
+leaf-list: {rfc: '7951', section: '5.3', ruby: Array, json: array}
+list: {rfc: '7951', section: '5.4', ruby: 'Array of Hash', json: 'array of objects'}
+anydata: {rfc: '7951', section: '5.5', ruby: 'Hash with opaque content', json: object}
+anyxml: {rfc: '7951', section: '5.6', ruby: 'JSON-compatible value', json: 'I-JSON value'}
+int8_int16_int32_uint8_uint16_uint32: {rfc: '7951', section: '6.1', ruby: Integer, json: number}
+int64_uint64: {rfc: '7951', section: '6.1', ruby: Integer, json: string}
+decimal64: {rfc: '7951', section: '6.1', ruby: BigDecimal, json: string}
+string: {rfc: '7951', section: '6.2', ruby: String, json: string}
+boolean: {rfc: '7951', section: '6.3', ruby: boolean, json: boolean}
+enumeration: {rfc: '7951', section: '6.4', ruby: String, json: string}
+bits: {rfc: '7951', section: '6.5', ruby: 'Array of String', json: string}
+binary: {rfc: '7951', section: '6.6', ruby: 'ASCII-8BIT String', json: 'base64 string'}
+leafref: {rfc: '7951', section: '6.7', ruby: 'resolved referent type', json: 'resolved referent type'}
+identityref: {rfc: '7951', section: '6.8', erratum: 7020, ruby: 'module-qualified String', json: string}
+empty: {rfc: '7951', section: '6.9', ruby: 'true', json: '[null]'}
+union: {rfc: '7951', section: '6.10', ruby: 'native member type', json: 'selected member type'}
+instance-identifier: {rfc: '7951', section: '6.11', ruby: String, json: string}
+metadata: {rfc: '7952', section: '5.2', ruby: 'typed annotations', json: 'annotation object or positional array'}

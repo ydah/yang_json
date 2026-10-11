@@ -1,0 +1,53 @@
+module YangJSON
+  VERSION: String
+  type json = nil | bool | Integer | Float | String | Array[json] | Hash[String, json]
+  type value = json | BigDecimal | Array[value] | Hash[String, value]
+  type limits = { ?max_bytes: Integer, ?max_depth: Integer, ?max_nodes: Integer, ?max_items: Integer, ?max_binary_bytes: Integer }
+  type yang_type = String | Array[untyped]
+
+  class Error < StandardError
+  end
+  class ParseError < Error
+  end
+  class ConversionError < Error
+  end
+  class Violation < Data
+    attr_reader pointer: String
+    attr_reader message: String
+    attr_reader rule: String
+    def self.new: (pointer: String, message: String, rule: String) -> instance
+  end
+  class ValidationError < Error
+    attr_reader violations: Array[Violation]
+    attr_reader pointer: String
+    def initialize: (Array[Violation]) -> void
+  end
+  class Document < Hash[String, value]
+    attr_reader warnings: Array[Violation]
+    attr_reader union_members: Hash[String, Integer]
+    def initialize: (Hash[String, value], warnings: Array[Violation], ?union_members: Hash[String, Integer]) -> void
+  end
+  class Node
+    attr_reader name: String
+    attr_reader module_name: String
+    attr_reader kind: String
+    attr_reader type: yang_type?
+    attr_reader children: Hash[String, Node]
+    attr_reader keys: Array[String]
+    def initialize: (name: String, kind: String, ?type: yang_type?, ?children: Hash[String, Node], ?keys: Array[String]) -> void
+  end
+  class Schema
+    attr_reader modules: Hash[String, Array[String]]
+    attr_reader tree: Hash[String, Node]
+    attr_reader annotations: Hash[String, yang_type]
+    def self.from_json: (String, **Integer) -> instance
+    def self.from_jtox: (String, **Integer) -> instance
+    def initialize: (Hash[String, untyped], ?limits: limits) -> void
+    def lookup: (String | Array[String]) -> Node?
+  end
+  def self.decode: (String, Schema, ?strict: bool, **Integer) -> Document
+  def self.parse: (String, schema: Schema, ?strict: bool, **Integer) -> Document
+  def self.encode: (Hash[String, value], Schema, **Integer) -> String
+  def self.validate: (String, Schema, **Integer) -> Array[Violation]
+end
+module YangJson = YangJSON

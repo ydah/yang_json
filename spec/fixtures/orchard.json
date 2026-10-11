@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "orchard": ["o", "urn:example:orchard"],
+    "orchard-extra": ["ox", "urn:example:orchard-extra"],
+    "orchard-meta": ["om", "urn:example:orchard-meta"]
+  },
+  "tree": {
+    "orchard:grove": ["container", {
+      "label": ["leaf", "string"], "enabled": ["leaf", "boolean"],
+      "count": ["leaf", "uint64"], "reference": ["leaf", "uint64"],
+      "price": ["leaf", ["decimal64", 2]], "small": ["leaf", "int8"],
+      "limited": ["leaf", "uint16"], "grade": ["leaf", "enumeration"],
+      "mask": ["leaf", "bits"], "blob": ["leaf", "binary"],
+      "present": ["leaf", "empty"], "variety": ["leaf", "identityref"],
+      "varieties": ["leaf-list", "identityref"],
+      "choice": ["leaf", ["union", ["uint64", "uint32", "string"]]],
+      "pointer": ["leaf", "instance-identifier"], "tags": ["leaf-list", "string"],
+      "basket": ["list", {"name": ["leaf", "string"], "number": ["leaf", "uint16"]}, [["orchard", "name"]]],
+      "pickup": ["leaf", "string"], "courier": ["leaf", "string"],
+      "data": ["anydata"], "xml": ["anyxml"], "orchard-extra:altitude": ["leaf", "int32"]
+    }]
+  },
+  "annotations": {"orchard-meta:revision": "uint64", "orchard-meta:source": "string"}
+}
