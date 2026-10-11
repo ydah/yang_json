@@ -1,16 +1,43 @@
-# yang_json
+<h1 align="center">yang_json</h1>
+
+<p align="center">Schema-aware YANG JSON, without a YANG compiler.</p>
+
+<p align="center">
+  <a href="https://rubygems.org/gems/yang_json"><img src="https://img.shields.io/gem/v/yang_json" alt="Gem version"></a>
+  <a href="https://github.com/ydah/yang_json/actions/workflows/main.yml"><img src="https://github.com/ydah/yang_json/actions/workflows/main.yml/badge.svg?branch=main" alt="CI"></a>
+  <a href="https://www.ruby-lang.org/"><img src="https://img.shields.io/badge/Ruby-%3E%3D%203.3-CC342D?logo=ruby&amp;logoColor=white" alt="Ruby 3.3 or later"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#quick-start">Quick start</a> &middot;
+  <a href="#scope">Scope</a> &middot;
+  <a href="#development">Development</a> &middot;
+  <a href="#license">License</a>
+</p>
 
 Read, validate and write [RFC 7951](https://www.rfc-editor.org/rfc/rfc7951) YANG JSON in Ruby, including [RFC 7952](https://www.rfc-editor.org/rfc/rfc7952) metadata. Supply a schema as a Ruby Hash or JSON document. No external schema compiler, YANG parser, or subprocess is required.
 
+## Features
+
+- Convert YANG values using schemas supplied as Ruby hashes or JSON.
+- Preserve exact decimal64 and 64-bit integer values with namespace-aware names.
+- Validate structure and convert typed RFC 7952 annotations.
+
 ## Installation
 
+Add the gem to your Gemfile:
+
 ```ruby
-gem "yang_json", "~> 0.1.0"
+gem "yang_json"
 ```
+
+Then run `bundle install`.
 
 Ruby 3.3 or later, JRuby and TruffleRuby are tested. Runtime dependencies are `json` (2.19.4–3.x), `bigdecimal` and `base64`; no other gem in this family is required. JSON 2.x and 3.x both reject duplicate object members explicitly.
 
-## Schema and data
+## Quick start
 
 Define the nodes and their types directly, or load the same structure with `Schema.from_json`. See [schema format](docs/jtox-format.md).
 
@@ -92,7 +119,7 @@ Pass overrides to `decode`, `encode`, `parse`, `validate` or `Schema.from_json`.
 
 **The schema format omits semantic constraints.** This gem cannot validate enumeration membership, identity derivation, allowed bit names/positions, derived range/length/pattern restrictions, mandatory/default/config properties, choice exclusivity, min/max-elements, unique statements, must/when expressions, leafref existence or instance-identifier existence. It does not add defaults or reorder system-ordered collections. Repeated leaf-list values are accepted because state leaf-lists may contain duplicates and the schema omits `config`. Instance-identifier syntax and namespace changes are checked, but node existence and predicate suitability are not resolved. See [schema format notes](docs/jtox-format.md).
 
-## Development and conformance
+## Development
 
 ```sh
 bundle install
@@ -105,6 +132,10 @@ The Ruby suite covers all 20 JSON/path examples in RFC 7951/7952, including the 
 
 `bundle exec ruby script/benchmark.rb` measures a bounded large record and limit rejection. CI tests maintained CRuby versions, head, JRuby and TruffleRuby on Linux/macOS, and both JSON major versions. Coverage must reach 90%.
 
-## License and security
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/ydah/yang_json/issues). See [Development](#development) for the checks to run before submitting a change. Report security vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
+
+## License
 
 Released under the [MIT License](LICENSE.txt). Added runtime and development dependencies must offer MIT terms; Ruby, its standard libraries and their system dependencies are the explicit exception. See [implementation and dependency policy](docs/implementation.md). Report vulnerabilities through the private channel in [SECURITY.md](SECURITY.md).
