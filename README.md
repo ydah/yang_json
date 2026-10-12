@@ -20,12 +20,6 @@
 
 Read, validate and write [RFC 7951](https://www.rfc-editor.org/rfc/rfc7951) YANG JSON in Ruby, including [RFC 7952](https://www.rfc-editor.org/rfc/rfc7952) metadata. Supply a schema as a Ruby Hash or JSON document. No external schema compiler, YANG parser, or subprocess is required.
 
-## Features
-
-- Convert YANG values using schemas supplied as Ruby hashes or JSON.
-- Preserve exact decimal64 and 64-bit integer values with namespace-aware names.
-- Validate structure and convert typed RFC 7952 annotations.
-
 ## Installation
 
 Add the gem to your Gemfile:
@@ -36,7 +30,7 @@ gem "yang_json"
 
 Then run `bundle install`.
 
-Ruby 3.3 or later, JRuby and TruffleRuby are tested. Runtime dependencies are `json` (2.19.4–3.x), `bigdecimal` and `base64`; no other gem in this family is required. JSON 2.x and 3.x both reject duplicate object members explicitly.
+Requires Ruby 3.3 or later, `json` >= 2.19.4 and < 4, `bigdecimal`, and `base64`.
 
 ## Quick start
 
@@ -118,7 +112,7 @@ Pass overrides to `decode`, `encode`, `parse`, `validate` or `Schema.from_json`.
 | RFC 7952 typed annotations on each node category | Interpreting annotation application semantics |
 | Structural schema-less anydata validation and opaque anyxml | Inferring or resolving schemas inside opaque content |
 
-**The schema format omits semantic constraints.** This gem cannot validate enumeration membership, identity derivation, allowed bit names/positions, derived range/length/pattern restrictions, mandatory/default/config properties, choice exclusivity, min/max-elements, unique statements, must/when expressions, leafref existence or instance-identifier existence. It does not add defaults or reorder system-ordered collections. Repeated leaf-list values are accepted because state leaf-lists may contain duplicates and the schema omits `config`. Instance-identifier syntax and namespace changes are checked, but node existence and predicate suitability are not resolved. See [schema format notes](docs/jtox-format.md).
+**The schema format omits semantic constraints**, including enum membership, derived restrictions, `must`/`when` expressions, and reference existence. See the full list in the [schema format notes](docs/jtox-format.md). The gem does not add defaults or reorder system-ordered collections. Repeated leaf-list values are accepted because state leaf-lists may contain duplicates and the schema omits `config`. Instance-identifier syntax and namespaces are checked, but node existence and predicate suitability are not resolved.
 
 ## Development
 
@@ -127,11 +121,10 @@ bundle install
 bundle exec rake test
 COVERAGE=1 bundle exec rake test
 bundle exec rbs -r bigdecimal -I sig validate
+bundle exec ruby script/benchmark.rb
 ```
 
-The Ruby suite covers all 20 JSON/path examples in RFC 7951/7952, including the deliberately invalid union value and complete Appendix A. Test schemas are declared locally. RFC excerpts are fetched with pinned SHA-256 hashes into ignored `tmp/rfc/`, retaining source notices and extraction corrections. These documents and examples are test inputs, never dependencies or packaged files. No external implementation is downloaded or executed by the tests. See [conformance notes](docs/conformance.md).
-
-`bundle exec ruby script/benchmark.rb` measures a bounded large record and limit rejection. CI tests maintained CRuby versions, head, JRuby and TruffleRuby on Linux/macOS, and both JSON major versions. Coverage must reach 90%.
+The first test run downloads RFC fixtures into ignored `tmp/rfc/` and requires network access. See [conformance notes](docs/conformance.md) for test coverage and specification details.
 
 ## Contributing
 
@@ -139,4 +132,4 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/ydah/ya
 
 ## License
 
-Released under the [MIT License](LICENSE.txt). Added runtime and development dependencies must offer MIT terms; Ruby, its standard libraries and their system dependencies are the explicit exception. See [implementation and dependency policy](docs/implementation.md). Report vulnerabilities through the private channel in [SECURITY.md](SECURITY.md).
+Released under the [MIT License](LICENSE.txt).
